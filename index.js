@@ -1,25 +1,6 @@
-const product = {
-    product_id: 1,
-    title: 'The Minimalist Entrepreneur'
-}
+let product = {}
 
-let reviews = [
-    {
-        review_id: 1,
-        stars: 4,
-        comment: 'book was full of fluff'
-    },
-    {
-        review_id: 2,
-        stars: 3,
-        comment: 'book was fluff'
-    },
-    {
-        review_id: 3,
-        stars: 4,
-        comment: 'book was amazing'
-    }
-]
+let reviews = []
 
 const TOTAL_REVIEWS = 5
 const STAR_CHECKED_CLASS = 'fa fa-star checked'
@@ -37,15 +18,37 @@ const reviewCommentTextareaEl = document.getElementById('review_comment_textarea
 const modalEl = document.getElementById("review_modal");
 const closeModalEl = document.getElementsByClassName("close")[0];
 
-productTitleEl.innerHTML = product.title
 
-const averageReviews = Number((reviews.map(r => r.stars).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1))
-productAverageReviewStarsEl.innerHTML = averageReviews
+function initData() {
+    getProductAPI()
+        .then(res => {
+            product = res.product
+            setupProductUI()
+            return getReviewsByProductIdAPI(product.product_id)
+        })
+        .then(res => {
+            reviews = res.reviews
+            setupReviewsUI()
+            setupSummaryUI()
+        })
+
+    console.log(product, reviews)
+}
+initData()
+
+function setupProductUI(){
+
+    productTitleEl.innerHTML = product.title || ''
+
+}
 
 /**SUMMARY */
-setupSummaryUI()
 function setupSummaryUI() {
+
     reviewStarsEl.innerHTML = ''
+
+    const averageReviews = Number((reviews.map(r => r.stars).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1)) || 0
+    productAverageReviewStarsEl.innerHTML = averageReviews
     const ceilReviews = Math.ceil(averageReviews)
     const remainingReviews = TOTAL_REVIEWS - ceilReviews
     for (let i = 0; i < ceilReviews; i++) {
@@ -61,7 +64,6 @@ function setupSummaryUI() {
 }
 
 /**REVIEWS */
-setupReviewsUI()
 function setupReviewsUI() {
     reviewRowsEl.innerHTML = ''
 
@@ -170,6 +172,39 @@ function addReviewAPI(newReview) {
             review_id: Math.ceil(Math.random() * 1000000),
             ...newReview,
         }
+    })
+}
+
+function getProductAPI() {
+    return fakeAPI({
+        status: 200,
+        product: {
+            product_id: 1,
+            title: 'The Minimalist Entrepreneur'
+        }
+    })
+}
+
+function getReviewsByProductIdAPI() {
+    return fakeAPI({
+        status: 200,
+        reviews: [
+            {
+                review_id: 1,
+                stars: 4,
+                comment: 'book was full of fluff'
+            },
+            {
+                review_id: 2,
+                stars: 3,
+                comment: 'book was fluff'
+            },
+            {
+                review_id: 3,
+                stars: 4,
+                comment: 'book was amazing'
+            }
+        ]
     })
 }
 
