@@ -41,7 +41,7 @@ button:hover {
 }
 
 body {
-  margin: 50px 100px;
+  margin: 50px 10%;
 }
 
 hr {
@@ -73,6 +73,7 @@ hr {
   margin: 15% auto;
   padding: 20px;
   width: 50%;
+  min-width: 300px;
   border-radius: 5px;
 }
 
