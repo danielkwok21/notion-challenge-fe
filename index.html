@@ -41,28 +41,15 @@
 
 <body>
 
-  <div id="product_header_container"></div> 
+  <div id="product_header_container"></div>
   <hr>
-  <div id="review_list_container"></div> 
+  <div id="review_list_container"></div>
+  <div id="add_review_modal_container"></div>
   <script type="text/babel" src="src/star.js"></script>
+  <script type="text/babel" src="src/addReviewModal.js"></script>
   <script type="text/babel" src="src/productHeader.js"></script>
   <script type="text/babel" src="src/reviewList.js"></script>
 
-
-
-  
-  <!-- MODAL -->
-  <div id="review_modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h1>What's your rating?</h1>
-      <p>Rating</p>
-      <div id='add_review_stars'></div>
-      <p>Review</p>
-      <textarea id='review_comment_textarea' rows="4" placeholder="Start typing..."></textarea>
-      <button id='submit_review_btn'>Submit review</button>
-    </div>
-  </div>
 
   <script src="/assets/js/xy-polyfill.js" nomodule></script>
 </body>

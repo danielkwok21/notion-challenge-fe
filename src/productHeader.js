@@ -38,6 +38,7 @@ class ProductHeader extends React.Component {
                         </div>
                         <button
                             onClick={() => {
+                                const modalEl = document.getElementById("review_modal");
                                 modalEl.style.display = "block";
                             }}
                             id='add_review_btn'>Add review</button>

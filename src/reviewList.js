@@ -22,7 +22,7 @@ class ReviewList extends React.Component {
                 {
 
                     this.state.reviews
-                        .sort((a, b) => new Date(b.created_at) > new Date(a.created_at))
+                        .sort((a, b) => b.createdAt - a.createdAt)
                         .map((review, i) => {
 
                             const ceilReviews = Math.ceil(review.stars)
