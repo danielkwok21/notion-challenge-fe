@@ -96,4 +96,4 @@ var ProductHeader = function (_React$Component) {
     return ProductHeader;
 }(React.Component);
 
-ReactDOM.render(React.createElement(ProductHeader, null), document.getElementById('some_random_id'));
+ReactDOM.render(React.createElement(ProductHeader, null), document.getElementById('root'));

@@ -17,9 +17,7 @@ const STAR_UNCHECKED_CLASS = 'fas fa-star'
 const productHeaderContainer = document.getElementById('product_header_container')
 
 const productAverageReviewStarsEl = document.getElementById('product_average_review_stars')
-const reviewSummaryRowEl = document.getElementById('review_summary_row')
 
-const reviewRowsEl = document.getElementById('review_rows')
 const addReviewStarsEl = document.getElementById('add_review_stars')
 const submitReviewBtnEl = document.getElementById('submit_review_btn')
 const reviewCommentTextareaEl = document.getElementById('review_comment_textarea')
@@ -34,53 +32,9 @@ function initData() {
         })
         .then(res => {
             reviews = res.reviews
-            setupReviewsUI()
         })
 }
 initData()
-
-
-/**REVIEWS */
-function setupReviewsUI() {
-    reviewRowsEl.innerHTML = ''
-
-    reviews
-        .sort((a, b) => new Date(b.created_at) > new Date(a.created_at))
-        .map(review => {
-            const parentEl = document.createElement('div')
-            parentEl.className = 'flex'
-
-            /**stars */
-            const starsContainer = document.createElement('div')
-            starsContainer.className = 'flex stars-container'
-            const ceilReviews = Math.ceil(review.stars)
-            const remainingReviews = TOTAL_REVIEWS - ceilReviews
-            for (let i = 0; i < ceilReviews; i++) {
-                const child = document.createElement('i')
-                child.className = STAR_CHECKED_CLASS
-                starsContainer.appendChild(child)
-            }
-            for (let i = 0; i < remainingReviews; i++) {
-                const child = document.createElement('i')
-                child.className = STAR_UNCHECKED_CLASS
-                starsContainer.appendChild(child)
-            }
-
-            const reviewNumberEl = document.createElement('p')
-            reviewNumberEl.innerHTML = `${ceilReviews} `
-            reviewNumberEl.className = 'review-number'
-            parentEl.appendChild(starsContainer)
-            parentEl.appendChild(reviewNumberEl)
-
-            /**comment*/
-            const commentEl = document.createElement('p')
-            commentEl.innerHTML = review.comment
-            commentEl.style['font-weight'] = 100
-            parentEl.appendChild(commentEl)
-
-            reviewRowsEl.appendChild(parentEl)
-        })
-}
 
 /**MODAL */
 closeModalEl.onclick = function () {
@@ -135,7 +89,6 @@ submitReviewBtnEl.onclick = () => {
         .then(response => {
             reviews = [response.review, ...reviews]
             setupSummaryUI()
-            setupReviewsUI()
             modalEl.style.display = "none";
         })
 

@@ -51,5 +51,5 @@ class ProductHeader extends React.Component {
 
 ReactDOM.render(
     <ProductHeader />,
-    document.getElementById('some_random_id')
+    document.getElementById('product_header_container')
 );
