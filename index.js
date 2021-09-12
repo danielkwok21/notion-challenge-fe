@@ -1,3 +1,11 @@
+
+const CONFIG = {
+    api: `http://localhost:3000`
+}
+const headers = {
+    'Content-Type': 'application/json'
+}
+
 let product = {}
 
 let reviews = []
@@ -24,19 +32,17 @@ function initData() {
         .then(res => {
             product = res.product
             setupProductUI()
-            return getReviewsByProductIdAPI(product.product_id)
+            return getReviewsByProductIdAPI(product.id)
         })
         .then(res => {
             reviews = res.reviews
             setupReviewsUI()
             setupSummaryUI()
         })
-
-    console.log(product, reviews)
 }
 initData()
 
-function setupProductUI(){
+function setupProductUI() {
 
     productTitleEl.innerHTML = product.title || ''
 
@@ -48,7 +54,7 @@ function setupSummaryUI() {
     reviewStarsEl.innerHTML = ''
 
     const averageReviews = Number((reviews.map(r => r.stars).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1)) || 0
-    productAverageReviewStarsEl.innerHTML = averageReviews
+    productAverageReviewStarsEl.innerHTML = averageReviews || null
     const ceilReviews = Math.ceil(averageReviews)
     const remainingReviews = TOTAL_REVIEWS - ceilReviews
     for (let i = 0; i < ceilReviews; i++) {
@@ -67,40 +73,42 @@ function setupSummaryUI() {
 function setupReviewsUI() {
     reviewRowsEl.innerHTML = ''
 
-    reviews.map(review => {
-        const parentEl = document.createElement('div')
-        parentEl.className = 'flex'
+    reviews
+        .sort((a, b) => new Date(b.created_at) > new Date(a.created_at))
+        .map(review => {
+            const parentEl = document.createElement('div')
+            parentEl.className = 'flex'
 
-        /**stars */
-        const starsContainer = document.createElement('div')
-        starsContainer.className = 'flex stars-container'
-        const ceilReviews = Math.ceil(review.stars)
-        const remainingReviews = TOTAL_REVIEWS - ceilReviews
-        for (let i = 0; i < ceilReviews; i++) {
-            const child = document.createElement('i')
-            child.className = STAR_CHECKED_CLASS
-            starsContainer.appendChild(child)
-        }
-        for (let i = 0; i < remainingReviews; i++) {
-            const child = document.createElement('i')
-            child.className = STAR_UNCHECKED_CLASS
-            starsContainer.appendChild(child)
-        }
+            /**stars */
+            const starsContainer = document.createElement('div')
+            starsContainer.className = 'flex stars-container'
+            const ceilReviews = Math.ceil(review.stars)
+            const remainingReviews = TOTAL_REVIEWS - ceilReviews
+            for (let i = 0; i < ceilReviews; i++) {
+                const child = document.createElement('i')
+                child.className = STAR_CHECKED_CLASS
+                starsContainer.appendChild(child)
+            }
+            for (let i = 0; i < remainingReviews; i++) {
+                const child = document.createElement('i')
+                child.className = STAR_UNCHECKED_CLASS
+                starsContainer.appendChild(child)
+            }
 
-        const reviewNumberEl = document.createElement('p')
-        reviewNumberEl.innerHTML = `${ceilReviews} `
-        reviewNumberEl.className = 'review-number'
-        parentEl.appendChild(starsContainer)
-        parentEl.appendChild(reviewNumberEl)
+            const reviewNumberEl = document.createElement('p')
+            reviewNumberEl.innerHTML = `${ceilReviews} `
+            reviewNumberEl.className = 'review-number'
+            parentEl.appendChild(starsContainer)
+            parentEl.appendChild(reviewNumberEl)
 
-        /**comment*/
-        const commentEl = document.createElement('p')
-        commentEl.innerHTML = review.comment
-        commentEl.style['font-weight'] = 100
-        parentEl.appendChild(commentEl)
+            /**comment*/
+            const commentEl = document.createElement('p')
+            commentEl.innerHTML = review.comment
+            commentEl.style['font-weight'] = 100
+            parentEl.appendChild(commentEl)
 
-        reviewRowsEl.appendChild(parentEl)
-    })
+            reviewRowsEl.appendChild(parentEl)
+        })
 }
 
 /**MODAL */
@@ -166,46 +174,23 @@ submitReviewBtnEl.onclick = () => {
 }
 
 function addReviewAPI(newReview) {
-    return fakeAPI({
-        status: 200,
-        review: {
-            review_id: Math.ceil(Math.random() * 1000000),
-            ...newReview,
-        }
+    return fetch(`${CONFIG.api}/product_reviews`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ review: newReview })
     })
+        .then(res => res.json())
 }
 
 function getProductAPI() {
-    return fakeAPI({
-        status: 200,
-        product: {
-            product_id: 1,
-            title: 'The Minimalist Entrepreneur'
-        }
-    })
+    return fetch(`${CONFIG.api}/products`)
+        .then(res => res.json())
+
 }
 
 function getReviewsByProductIdAPI() {
-    return fakeAPI({
-        status: 200,
-        reviews: [
-            {
-                review_id: 1,
-                stars: 4,
-                comment: 'book was full of fluff'
-            },
-            {
-                review_id: 2,
-                stars: 3,
-                comment: 'book was fluff'
-            },
-            {
-                review_id: 3,
-                stars: 4,
-                comment: 'book was amazing'
-            }
-        ]
-    })
+    return fetch(`${CONFIG.api}/product_reviews`)
+        .then(res => res.json())
 }
 
 function fakeAPI(obj) {
