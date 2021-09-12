@@ -14,60 +14,31 @@ const TOTAL_REVIEWS = 5
 const STAR_CHECKED_CLASS = 'fa fa-star checked'
 const STAR_UNCHECKED_CLASS = 'fas fa-star'
 
-const productTitleEl = document.getElementById('product_title')
+const productHeaderContainer = document.getElementById('product_header_container')
+
 const productAverageReviewStarsEl = document.getElementById('product_average_review_stars')
 const reviewSummaryRowEl = document.getElementById('review_summary_row')
-const reviewStarsEl = document.getElementById('review_stars')
+
 const reviewRowsEl = document.getElementById('review_rows')
-const addReviewButtonEl = document.getElementById('add_review_btn')
 const addReviewStarsEl = document.getElementById('add_review_stars')
 const submitReviewBtnEl = document.getElementById('submit_review_btn')
 const reviewCommentTextareaEl = document.getElementById('review_comment_textarea')
 const modalEl = document.getElementById("review_modal");
 const closeModalEl = document.getElementsByClassName("close")[0];
 
-
 function initData() {
     getProductAPI()
         .then(res => {
             product = res.product
-            setupProductUI()
             return getReviewsByProductIdAPI(product.id)
         })
         .then(res => {
             reviews = res.reviews
             setupReviewsUI()
-            setupSummaryUI()
         })
 }
 initData()
 
-function setupProductUI() {
-
-    productTitleEl.innerHTML = product.title || ''
-
-}
-
-/**SUMMARY */
-function setupSummaryUI() {
-
-    reviewStarsEl.innerHTML = ''
-
-    const averageReviews = Number((reviews.map(r => r.stars).reduce((a, b) => a + b, 0) / reviews.length).toFixed(1)) || 0
-    productAverageReviewStarsEl.innerHTML = averageReviews || null
-    const ceilReviews = Math.ceil(averageReviews)
-    const remainingReviews = TOTAL_REVIEWS - ceilReviews
-    for (let i = 0; i < ceilReviews; i++) {
-        const star = document.createElement('i')
-        star.className = STAR_CHECKED_CLASS
-        reviewStarsEl.appendChild(star)
-    }
-    for (let i = 0; i < remainingReviews; i++) {
-        const star = document.createElement('i')
-        star.className = STAR_UNCHECKED_CLASS
-        reviewStarsEl.appendChild(star)
-    }
-}
 
 /**REVIEWS */
 function setupReviewsUI() {
@@ -112,9 +83,6 @@ function setupReviewsUI() {
 }
 
 /**MODAL */
-addReviewButtonEl.onclick = function () {
-    modalEl.style.display = "block";
-}
 closeModalEl.onclick = function () {
     modalEl.style.display = "none";
 }

@@ -7,6 +7,7 @@
 
   <title>Notion 2.0</title>
 
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script defer src="index.js"></script>
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -17,6 +18,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap"
     rel="stylesheet">
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
 
   <meta name="description" content="Page description">
   <meta property="og:title" content="Notion 2.0">
@@ -37,17 +40,11 @@
 </head>
 
 <body>
-  <!-- SUMMARY -->
-  <div>
-    <h1 id='product_title'></h1>
-    <div id='review_summary_row' class='flex'>
-      <div class='flex'>
-        <h2 id='product_average_review_stars'></h2>
-        <div id='review_stars'></div>
-      </div>
-      <button id='add_review_btn'>Add review</button>
-    </div>
-  </div>
+
+  <div id="some_random_id"></div> 
+  <script type="text/babel" src="src/star.js"></script>
+  <script type="text/babel" src="src/productHeader.js"></script>
+
 
   <hr>
 
