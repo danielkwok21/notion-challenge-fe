@@ -1,6 +1,6 @@
 
 const CONFIG = {
-    api: `http://172.104.165.240`
+    api: `http://172.104.165.240/api`
 }
 const headers = {
     'Content-Type': 'application/json'
