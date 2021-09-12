@@ -1,6 +1,6 @@
 
 const CONFIG = {
-    api: `http://localhost:3000`
+    api: `http://172.104.165.240`
 }
 const headers = {
     'Content-Type': 'application/json'
@@ -174,7 +174,7 @@ submitReviewBtnEl.onclick = () => {
 }
 
 function addReviewAPI(newReview) {
-    return fetch(`${CONFIG.api}/product_reviews`, {
+    return fetch(`${CONFIG.api}/reviews`, {
         method: 'POST',
         headers,
         body: JSON.stringify({ review: newReview })
@@ -189,7 +189,7 @@ function getProductAPI() {
 }
 
 function getReviewsByProductIdAPI() {
-    return fetch(`${CONFIG.api}/product_reviews`)
+    return fetch(`${CONFIG.api}/reviews`)
         .then(res => res.json())
 }
 
