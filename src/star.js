@@ -1,3 +1,6 @@
+/**
+ * Reusable star component
+ */
 class Star extends React.Component {
     render() {
         return (

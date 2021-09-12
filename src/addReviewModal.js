@@ -58,7 +58,6 @@ class AddReviewModal extends React.Component {
                         <span
                             onClick={() => {
                                 const modalEl = document.getElementById("review_modal");
-                                console.log(modalEl)
                                 modalEl.style.display = "none";
                             }}
                             className="close">&times;</span>

@@ -15,6 +15,23 @@ class ReviewList extends React.Component {
             })
     }
 
+    getReviewComponent = (review, i) => {
+
+        const ceilReviews = Math.ceil(review.stars)
+        const remainingReviews = TOTAL_REVIEWS - ceilReviews
+
+        return (
+            <div className='flex' key={i}>
+                <div className='flex stars-container'>
+                    {Array(ceilReviews).fill().map((r, i) => <Star key={i} checked={true} />)}
+                    {Array(remainingReviews).fill().map((r, i) => <Star key={i} checked={false} />)}
+                </div>
+                <p className='review-number'>{ceilReviews}</p>
+                <p style={{ fontWeight: 100 }}>{review.comment}</p>
+            </div>
+        )
+    }
+
     render() {
         return (
             <div>
@@ -24,18 +41,7 @@ class ReviewList extends React.Component {
                     this.state.reviews
                         .sort((a, b) => b.createdAt - a.createdAt)
                         .map((review, i) => {
-
-                            const ceilReviews = Math.ceil(review.stars)
-                            const remainingReviews = TOTAL_REVIEWS - ceilReviews
-
-                            return <div className='flex' key={i}>
-                                <div className='flex stars-container'>
-                                    {Array(ceilReviews).fill().map((r, i) => <Star key={i} checked={true} />)}
-                                    {Array(remainingReviews).fill().map((r, i) => <Star key={i} checked={false} />)}
-                                </div>
-                                <p className='review-number'>{ceilReviews}</p>
-                                <p style={{ fontWeight: 100 }}>{review.comment}</p>
-                            </div>
+                            return this.getReviewComponent(review, i)
                         })
                 }
             </div>
