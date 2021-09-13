@@ -13,6 +13,16 @@ class ReviewList extends React.Component {
             .then(res => {
                 this.setState({ reviews: res.reviews })
             })
+
+        reviewEvent.onmessage = e => {
+            const review = JSON.parse(e.data);
+            /**skip initial message */
+            if (review.message) return false
+            
+            this.setState({
+                reviews: [review, ...this.state.reviews]
+            })
+        }
     }
 
     getReviewComponent = (review, i) => {
